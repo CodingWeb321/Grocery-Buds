@@ -1,0 +1,48 @@
+main {
+  width: 80%;
+  max-width: 360px;
+  margin: 0 auto;
+  background-color: blanchedalmond;
+  height: auto;
+}
+h1 {
+  text-align: center;
+}
+input {
+  width: 80%;
+  box-sizing: border-box;
+}
+
+.inputField {
+  display: flex;
+  gap: 10px;
+  margin: 2px 5px;
+}
+.grocery-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.grocery-item .delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+#addBtn {
+  background-color: #0e23df;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}

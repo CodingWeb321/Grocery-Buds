@@ -1,57 +1,35 @@
+import { getItems, saveItems } from "./storage.js";
+import { renderItems } from "./ui.js";
+import { generateId } from "./utils.js";
+
 const textInput = document.getElementById("textInput");
 const addBtn = document.getElementById("addBtn");
 const listDiv = document.querySelector(".listDiv");
 
-let groceryArray = JSON.parse(localStorage.getItem("groceryItems")) || [];
+let groceryArray = getItems();
 
-//Render Items on the page!
-function renderItems() {
-  listDiv.innerHTML = ""; //clear old items!
-
-  groceryArray.forEach((item) => {
-    //create element
-    const div = document.createElement("div");
-    div.className = "grocery-item";
-
-    const span = document.createElement("span");
-    span.textContent = item.taskName;
-
-    //create delete  button
-    const delBtn = document.createElement("button");
-    delBtn.textContent = "Delete";
-    delBtn.className = "delete-btn";
-
-    //delete Functionality
-    delBtn.addEventListener("click", () => {
-      groceryArray = groceryArray.filter((g) => g.id !== item.id);
-      localStorage.setItem("groceryItems", JSON.stringify(groceryArray));
-      renderItems();
-    });
-
-    div.appendChild(span);
-    div.appendChild(delBtn);
-    listDiv.appendChild(div);
-  });
+// Update function (rerenders UI)
+function update(newArray) {
+  groceryArray = newArray;
+  renderItems(listDiv, groceryArray, update);
 }
-renderItems();
 
-addBtn.addEventListener("click", function () {
+// Initial render
+update(groceryArray);
+
+addBtn.addEventListener("click", () => {
   const value = textInput.value.trim();
   if (!value) return;
 
   const newItem = {
-    id: new Date().getTime().toString(),
+    id: generateId(),
     taskName: value,
   };
 
-  groceryArray.push(newItem);
+  const updatedList = [...groceryArray, newItem];
 
-  //Save to  local storage!
-  localStorage.setItem("groceryItems", JSON.stringify(groceryArray));
+  saveItems(updatedList);
+  update(updatedList);
 
-  //Rerender
-  renderItems();
-
-  //clear input
   textInput.value = "";
 });
